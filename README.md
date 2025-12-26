@@ -84,7 +84,7 @@ Sentinel fundamentally reimagines RAG by treating data as a continuous stream ra
 ┌─────────────────────────────────────────────────────────┐
 │                    DATA LAYER                           │
 │  Pathway Streaming Engine                               │
-│  • Ingests: SEC filings, news RSS, market data         │
+│  • Ingests: SEC filings, news RSS, market data          │
 │  • Processes: Real-time embeddings and indexing         │
 │  • Updates: Differential dataflow (only Δ changes)      │
 └────────────────────┬────────────────────────────────────┘
@@ -93,14 +93,14 @@ Sentinel fundamentally reimagines RAG by treating data as a continuous stream ra
 ┌─────────────────────────────────────────────────────────┐
 │                  AGENTIC LAYER                          │
 │  LangGraph Orchestration                                │
-│  ┌──────────────────┐      ┌──────────────────┐        │
-│  │ Watchdog Agent   │─────▶│ Analyst Agent    │        │
-│  │ (Continuous)     │      │ (On-Demand)      │        │
-│  │                  │      │                  │        │
-│  │ • Portfolio scan │      │ • Deep-dive RAG  │        │
-│  │ • Event detection│      │ • Risk analysis  │        │
-│  │ • Threshold gate │      │ • Thesis gen     │        │
-│  └──────────────────┘      └──────────────────┘        │
+│  ┌──────────────────┐        ┌──────────────────┐       │
+│  │ Watchdog Agent   │ ─────▶│  Analyst Agent    │      │
+│  │ (Continuous)     │        │ (On-Demand)      │       │
+│  │                  │        │                  │       │
+│  │ • Portfolio scan │        │ • Deep-dive RAG  │       │
+│  │ • Event detection│        │ • Risk analysis  │       │
+│  │ • Threshold gate │        │ • Thesis gen     │       │
+│  └──────────────────┘        └──────────────────┘       │
 └────────────────────┬────────────────────────────────────┘
                      │
                      ▼
