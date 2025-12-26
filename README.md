@@ -5,7 +5,6 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Pathway](https://img.shields.io/badge/Pathway-Streaming_Engine-00D9FF?style=flat-square)](https://pathway.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Agent_Orchestration-10A37F?style=flat-square)](https://github.com/langchain-ai/langgraph)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
 ---
 
