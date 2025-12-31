@@ -432,30 +432,30 @@ LESSON: The right abstraction changes everything
 
 What's next for Sentinel:
 
-### Phase 2: Real-Time Data Sources (Q1 2025)
+### Phase 2: Real-Time Data Sources (Q1 2026)
 - [ ] **SEC EDGAR RSS Feed** - Official government filings (100% reliable)
 - [ ] **Alpha Vantage API** - Free tier financial data
 - [ ] **WebSocket Streaming** - Push alerts without polling (instant updates)
 - [ ] **RSS Feed Ingestion** - Monitor Reuters, Bloomberg news
 - [ ] **Webhook Notifications** - Slack, Discord, Email alerts
 
-### Phase 3: Advanced NLP (Q2 2025)
+### Phase 3: Advanced NLP (Q2 2026)
 - [ ] **spaCy NER** - Extract company names, executives, amounts
 - [ ] **FinBERT Sentiment** - Financial-domain sentiment analysis
 - [ ] **Entity Linking** - Connect mentions to knowledge graph
 - [ ] **Temporal Analysis** - Track risk over time
 
-### Phase 4: Multi-Model Ensemble (Q2 2025)
+### Phase 4: Multi-Model Ensemble (Q2 2026)
 - [ ] **GPT-4 + Claude + Gemini** - Voting system for risk assessment
 - [ ] **Confidence Calibration** - Reduce false positives
 - [ ] **Fallback Chains** - If one model fails, use another
 
-### Phase 5: Knowledge Graph (Q3 2025)
+### Phase 5: Knowledge Graph (Q3 2026)
 - [ ] **Neo4j Integration** - Company relationships, executive networks
 - [ ] **Historical Pattern Matching** - "Similar lawsuits in 2019 resulted in..."
 - [ ] **Cross-Document Linking** - Connect related filings
 
-### Phase 6: Production Deployment (Q3 2025)
+### Phase 6: Production Deployment (Q3 2026)
 - [ ] **Kubernetes Deployment** - Auto-scaling, load balancing
 - [ ] **Prometheus + Grafana** - Full observability
 - [ ] **CI/CD Pipeline** - Automated testing and deployment
@@ -494,7 +494,7 @@ How Sentinel ensures accuracy:
 
 | Feature | Description |
 |---------|-------------|
-| **Source Attribution** | "Alert based on SEC Filing 8-K dated 2025-01-01" |
+| **Source Attribution** | "Alert based on SEC Filing 8-K dated 2026-01-01" |
 | **Confidence Scores** | "92% confident" with calibrated uncertainty |
 | **Audit Trail** | Every alert traces back to source document |
 | **Verifiable** | User can click to see original PDF |
@@ -502,7 +502,7 @@ How Sentinel ensures accuracy:
 
 ---
 
-## 🆕 Emerging Tech to Watch (2024-2025)
+## 🆕 Emerging Tech to Watch (2024-2026)
 
 Technologies we're evaluating for future versions:
 
