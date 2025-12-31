@@ -246,9 +246,9 @@ sentinel/
 
 ## 📈 The Journey
 
-### Origin: Synaptix AI Hackathon (IIT Madras - shaastra)
+### Origin: Synaptix AI Hackathon (IIT Madras - SHAASTRA)
 
-This project was born from the **Synaptix AI Hackathon** organized by IIT Madras as part of shaastra:
+This project was born from the **Synaptix AI Hackathon** organized by IIT Madras as part of SHAASTRA:
 
 - **2200+ teams** registered nationwide
 - **Top 50 teams** selected for Round 2
@@ -546,7 +546,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## 🙏 Acknowledgments
 
-- **IIT Madras Shaastra** - For the Synaptix AI Hackathon opportunity
+- **IIT Madras SHAASTRA** - For the Synaptix AI Hackathon opportunity
 - **LangChain/LangGraph** - Amazing agent orchestration framework
 - **Hugging Face** - Sentence-transformers for free embeddings
 - **Claude/GPT-4** - For helping debug and optimize code
