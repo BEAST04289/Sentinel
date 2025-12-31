@@ -246,9 +246,9 @@ sentinel/
 
 ## 📈 The Journey
 
-### Origin: Synaptix AI Hackathon (IIT Madras - Shaastra 2026)
+### Origin: Synaptix AI Hackathon (IIT Madras - shaastra)
 
-This project was born from the **Synaptix AI Hackathon** organized by IIT Madras as part of Shaastra 2026:
+This project was born from the **Synaptix AI Hackathon** organized by IIT Madras as part of shaastra:
 
 - **2200+ teams** registered nationwide
 - **Top 50 teams** selected for Round 2
