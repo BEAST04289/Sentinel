@@ -432,10 +432,11 @@ LESSON: The right abstraction changes everything
 
 What's next for Sentinel:
 
-### Phase 2: Real-Time Streaming (Q1 2025)
-- [ ] **Kafka Integration** - Subscribe to SEC EDGAR real-time feed
-- [ ] **WebSocket Streaming** - Push alerts without polling
-- [ ] **RSS Feed Ingestion** - Monitor financial news sites
+### Phase 2: Real-Time Data Sources (Q1 2025)
+- [ ] **SEC EDGAR RSS Feed** - Official government filings (100% reliable)
+- [ ] **Alpha Vantage API** - Free tier financial data
+- [ ] **WebSocket Streaming** - Push alerts without polling (instant updates)
+- [ ] **RSS Feed Ingestion** - Monitor Reuters, Bloomberg news
 - [ ] **Webhook Notifications** - Slack, Discord, Email alerts
 
 ### Phase 3: Advanced NLP (Q2 2025)
@@ -465,6 +466,54 @@ What's next for Sentinel:
 - [ ] **Voice Alerts** - "NVDA lawsuit detected, HIGH risk"
 - [ ] **Trading Integration** - Auto-execute hedge orders (paper trading first!)
 - [ ] **Backtesting Framework** - Validate against historical data
+
+---
+
+## 📡 Current & Planned Data Sources
+
+### Current (v1.0)
+| Source | Type | Status |
+|--------|------|--------|
+| Manual PDF Upload | User-provided | ✅ Working |
+| Mock SEC Filings | Demo data | ✅ Working |
+
+### Planned (v2.0+)
+| Source | Reliability | Cost | Status |
+|--------|-------------|------|--------|
+| SEC EDGAR RSS | 100% (Government) | Free | 🔜 Planned |
+| Alpha Vantage | 95% (Financial Data) | Free tier | 🔜 Planned |
+| Reuters API | 95% (Reputable) | Paid | 💭 Future |
+| Bloomberg API | 95% (Reputable) | Paid | 💭 Future |
+| Twitter/X API | Variable (Social) | Paid | ⚠️ Needs verification |
+
+---
+
+## 🔐 Trust & Reliability
+
+How Sentinel ensures accuracy:
+
+| Feature | Description |
+|---------|-------------|
+| **Source Attribution** | "Alert based on SEC Filing 8-K dated 2025-01-01" |
+| **Confidence Scores** | "92% confident" with calibrated uncertainty |
+| **Audit Trail** | Every alert traces back to source document |
+| **Verifiable** | User can click to see original PDF |
+| **Multi-Source Verification** | (Planned) Cross-check across sources |
+
+---
+
+## 🆕 Emerging Tech to Watch (2024-2025)
+
+Technologies we're evaluating for future versions:
+
+| Tech | Purpose | Why It's Cool |
+|------|---------|---------------|
+| **Ollama** | Local LLMs | Run GPT-like models on your laptop |
+| **Groq** | Fast inference | 10x faster than OpenAI |
+| **CrewAI** | Multi-agent | Agents that collaborate |
+| **LanceDB** | Embedded vectors | SQLite for vector search |
+| **DSPy** | Prompt optimization | Auto-improve prompts |
+| **vLLM** | LLM serving | 24x faster inference |
 
 ---
 
