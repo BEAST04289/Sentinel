@@ -524,4 +524,6 @@ Built by a 1st Year BTech CSE student passionate about AI Agents & Production Sy
 
 [Report Bug](https://github.com/yourusername/sentinel/issues) · [Request Feature](https://github.com/yourusername/sentinel/issues)
 
+**#SENTIFAI**
+
 </div>
