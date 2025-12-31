@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel • Real-Time Financial Risk Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #18181b;
+            --bg-tertiary: #27272a;
+            --bg-elevated: rgba(39, 39, 42, 0.7);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-tertiary: #71717a;
+            --border: rgba(63, 63, 70, 0.5);
+            --border-strong: #3f3f46;
+            --accent-primary: #6366f1;
+            --accent-primary-glow: rgba(99, 102, 241, 0.3);
+            --accent-secondary: #8b5cf6;
+            --accent-cyan: #22d3ee;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            --gradient-dark: linear-gradient(180deg, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+            --glass: rgba(24, 24, 27, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-dark);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent-primary);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent-pink);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            25% {
+                transform: translate(30px, -30px) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) scale(0.95);
+            }
+
+            75% {
+                transform: translate(10px, 10px) scale(1.02);
+            }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 30px var(--accent-primary-glow);
+        }
+
+        .logo-text h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 12px var(--accent-green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+                transform: scale(0.9);
+            }
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-latency {
+            font-size: 12px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 1100px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .card-icon.purple {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .card-icon.cyan {
+            background: rgba(34, 211, 238, 0.2);
+        }
+
+        .card-icon.green {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .card-icon.pink {
+            background: rgba(236, 72, 153, 0.2);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Portfolio */
+        .portfolio-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ticker-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .ticker-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--accent-primary);
+            transform: translateX(4px);
+        }
+
+        .ticker-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ticker-symbol {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ticker-name {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .risk-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .risk-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+        }
+
+        .risk-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .metric-card {
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border-strong);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-zone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .upload-zone:hover::before {
+            opacity: 0.05;
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .upload-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .upload-hint {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-top: 8px;
+        }
+
+        /* Simulate Section */
+        .simulate-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .simulate-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .simulate-select:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .simulate-btn {
+            padding: 14px 24px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .simulate-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .simulate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--accent-primary-glow);
+        }
+
+        .simulate-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Alerts Section */
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .alerts-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alerts-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .alert-count-badge {
+            padding: 4px 12px;
+            background: var(--accent-red);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+            }
+        }
+
+        /* Alert Cards */
+        .alerts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .alert-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-red);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .alert-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert-card.medium {
+            border-left-color: var(--accent-yellow);
+        }
+
+        .alert-card.low {
+            border-left-color: var(--accent-green);
+        }
+
+        .alert-content {
+            padding: 20px 24px;
+        }
+
+        .alert-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .alert-ticker-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-ticker {
+            font-size: 24px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .alert-badges {
+            display: flex;
+            gap: 8px;
+        }
+
+        .alert-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        .badge-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .badge-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .badge-low {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+        }
+
+        .badge-action {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent-primary);
+        }
+
+        .alert-headline {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .alert-reasoning {
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .alert-reasoning-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-tertiary);
+            margin-bottom: 10px;
+        }
+
+        .alert-reasoning ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .alert-reasoning li {
+            font-size: 13px;
+            color: var(--text-secondary);
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .alert-reasoning li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+
+        .alert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .alert-meta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .alert-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .confidence-bar {
+            width: 60px;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* Events Table */
+        .events-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .events-table th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-tertiary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .events-table td {
+            padding: 14px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .events-table tr:hover td {
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .latency-good {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .latency-ok {
+            color: var(--accent-yellow);
+            font-weight: 600;
+        }
+
+        .latency-bad {
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            color: var(--text-tertiary);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+
+        /* Hidden */
+        #file-input {
+            display: none;
+        }
+
+        /* Loading animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .loading-dots span {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+                <div class="logo-text">
+                    <h1>Sentinel</h1>
+                    <span>Real-Time Financial Risk Agent</span>
+                </div>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span class="status-text" id="status-text">Monitoring</span>
+                <span class="status-latency" id="latency-display">~0ms</span>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <aside class="sidebar">
+                <!-- Portfolio -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon purple">📊</div>
+                        <span class="card-title">Portfolio Watchlist</span>
+                    </div>
+                    <div class="portfolio-grid" id="portfolio-list">
+                        <div class="ticker-card">
+                            <div class="ticker-info">
+                                <span class="ticker-symbol">NVDA</span>
+                                <span class="ticker-name">NVIDIA Corp</span>
+                            </div>
+                            <span class="risk-badge risk-low">Low</span>
+                        </div>
+                        <div class="ticker-card">
+                            <div class="ticker-info">
+                                <span class="ticker-symbol">TSLA</span>
+                                <span class="ticker-name">Tesla Inc</span>
+                            </div>
+                            <span class="risk-badge risk-low">Low</span>
+                        </div>
+                        <div class="ticker-card">
+                            <div class="ticker-info">
+                                <span class="ticker-symbol">AAPL</span>
+                                <span class="ticker-name">Apple Inc</span>
+                            </div>
+                            <span class="risk-badge risk-low">Low</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metrics -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon cyan">⚡</div>
+                        <span class="card-title">Pipeline Metrics</span>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="docs-count">0</div>
+                            <div class="metric-label">Documents</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="avg-latency">0<span style="font-size:14px">ms</span></div>
+                            <div class="metric-label">Avg Latency</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="alerts-total">0</div>
+                            <div class="metric-label">Alerts</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="success-rate">100<span style="font-size:14px">%</span></div>
+                            <div class="metric-label">Success Rate</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon green">📤</div>
+                        <span class="card-title">Upload Document</span>
+                    </div>
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">📄</div>
+                        <div class="upload-text">Drop SEC filing here</div>
+                        <div class="upload-hint">PDF, TXT • Max 10MB</div>
+                    </div>
+                    <input type="file" id="file-input" accept=".pdf,.txt,.md">
+                </div>
+
+                <!-- Simulate -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon pink">🎬</div>
+                        <span class="card-title">Simulate Event</span>
+                    </div>
+                    <div class="simulate-group">
+                        <select class="simulate-select" id="simulate-select">
+                            <option value="">Select a mock filing...</option>
+                            <option value="NVDA_8K_Lawsuit.pdf">🔴 NVDA - Class Action Lawsuit</option>
+                            <option value="TSLA_8K_Recall.pdf">🟡 TSLA - Vehicle Recall</option>
+                            <option value="AAPL_10Q_Earnings.pdf">🟡 AAPL - Earnings Miss</option>
+                            <option value="NVDA_Positive_News.pdf">🟢 NVDA - Positive News</option>
+                        </select>
+                        <button class="simulate-btn" onclick="simulateEvent()">
+                            ⚡ Trigger Event
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <!-- Alerts -->
+                <div class="card">
+                    <div class="alerts-header">
+                        <div class="alerts-title">
+                            <h2>🚨 Live Alerts</h2>
+                            <span class="alert-count-badge" id="alert-count-badge">0</span>
+                        </div>
+                    </div>
+                    <div class="alerts-grid" id="alerts-list">
+                        <div class="empty-state">
+                            <div class="empty-icon">🔍</div>
+                            <div class="empty-title">No alerts yet</div>
+                            <div class="empty-text">Upload a document or simulate an event to generate alerts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon cyan">📋</div>
+                        <span class="card-title">Recent Indexing Events</span>
+                    </div>
+                    <table class="events-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>File</th>
+                                <th>Ticker</th>
+                                <th>Chunks</th>
+                                <th>Latency</th>
+                                <th>Salience</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-tbody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: var(--text-tertiary); padding: 40px;">
+                                    Waiting for events...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshData();
+            setInterval(refreshData, 2000);
+            setupUpload();
+        });
+
+        async function refreshData() {
+            try {
+                const [statusRes, alertsRes, eventsRes] = await Promise.all([
+                    fetch('/api/status'),
+                    fetch('/api/alerts'),
+                    fetch('/api/events')
+                ]);
+
+                const status = await statusRes.json();
+                const alertsData = await alertsRes.json();
+                const eventsData = await eventsRes.json();
+
+                // Update metrics
+                document.getElementById('docs-count').textContent = status.vector_store?.total_documents || 0;
+                document.getElementById('avg-latency').innerHTML = `${(status.pipeline?.avg_latency_ms || 0).toFixed(0)}<span style="font-size:14px">ms</span>`;
+                document.getElementById('latency-display').textContent = `~${(status.pipeline?.avg_latency_ms || 0).toFixed(0)}ms`;
+                document.getElementById('alerts-total').textContent = alertsData.alerts?.length || 0;
+
+                renderAlerts(alertsData.alerts || []);
+                renderEvents(eventsData.events || []);
+            } catch (err) {
+                console.error('Refresh failed:', err);
+            }
+        }
+
+        function renderAlerts(alerts) {
+            const container = document.getElementById('alerts-list');
+            const badge = document.getElementById('alert-count-badge');
+
+            badge.textContent = alerts.length;
+
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-title">No alerts yet</div>
+                        <div class="empty-text">Upload a document or simulate an event to generate alerts</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = alerts.map(alert => {
+                const riskClass = (alert.risk_level || 'medium').toLowerCase();
+                const confidence = (alert.confidence || 0) * 100;
+                return `
+                    <div class="alert-card ${riskClass}">
+                        <div class="alert-content">
+                            <div class="alert-top">
+                                <div class="alert-ticker-group">
+                                    <span class="alert-ticker">${alert.ticker || 'N/A'}</span>
+                                </div>
+                                <div class="alert-badges">
+                                    <span class="alert-badge badge-${riskClass}">${alert.risk_level || 'UNKNOWN'}</span>
+                                    <span class="alert-badge badge-action">${alert.action || 'HOLD'}</span>
+                                </div>
+                            </div>
+                            <p class="alert-headline">${alert.headline || 'Event detected'}</p>
+                            ${alert.reasoning ? `
+                                <div class="alert-reasoning">
+                                    <div class="alert-reasoning-title">Analysis</div>
+                                    <ul>${alert.reasoning.map(r => `<li>${r}</li>`).join('')}</ul>
+                                </div>
+                            ` : ''}
+                            <div class="alert-footer">
+                                <div class="alert-meta">
+                                    <div class="alert-meta-item">
+                                        <span>Confidence</span>
+                                        <div class="confidence-bar">
+                                            <div class="confidence-fill" style="width: ${confidence}%"></div>
+                                        </div>
+                                        <span>${confidence.toFixed(0)}%</span>
+                                    </div>
+                                    <div class="alert-meta-item">
+                                        <span>⚡ ${(alert.latency_ms || 0).toFixed(0)}ms</span>
+                                    </div>
+                                </div>
+                                <div class="alert-meta-item">
+                                    <span>${formatTime(alert.timestamp)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderEvents(events) {
+            const tbody = document.getElementById('events-tbody');
+
+            if (events.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-tertiary); padding: 40px;">
+                        Waiting for events...
+                    </td></tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = events.map(event => {
+                const latencyClass = event.latency_ms < 500 ? 'latency-good' :
+                    event.latency_ms < 1000 ? 'latency-ok' : 'latency-bad';
+                return `
+                    <tr>
+                        <td>${formatTime(event.timestamp)}</td>
+                        <td>${event.filename || '-'}</td>
+                        <td><strong>${event.ticker || '-'}</strong></td>
+                        <td>${event.chunks || 0}</td>
+                        <td class="${latencyClass}">${(event.latency_ms || 0).toFixed(0)}ms</td>
+                        <td>${(event.salience || 0).toFixed(2)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function formatTime(ts) {
+            if (!ts) return '-';
+            try {
+                return new Date(ts).toLocaleTimeString();
+            } catch {
+                return ts;
+            }
+        }
+
+        function setupUpload() {
+            const zone = document.getElementById('upload-zone');
+            const input = document.getElementById('file-input');
+
+            zone.onclick = () => input.click();
+
+            zone.ondragover = (e) => {
+                e.preventDefault();
+                zone.classList.add('dragover');
+            };
+
+            zone.ondragleave = () => zone.classList.remove('dragover');
+
+            zone.ondrop = async (e) => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) await uploadFile(file);
+            };
+
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (file) await uploadFile(file);
+            };
+        }
+
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                const result = await res.json();
+                console.log('Upload result:', result);
+                await refreshData();
+            } catch (err) {
+                console.error('Upload failed:', err);
+                alert('Upload failed: ' + err.message);
+            }
+        }
+
+        async function simulateEvent() {
+            const select = document.getElementById('simulate-select');
+            const filename = select.value;
+
+            if (!filename) {
+                alert('Please select a mock filing');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename })
+                });
+                const result = await res.json();
+                console.log('Simulate result:', result);
+                await refreshData();
+            } catch (err) {
+                console.error('Simulate failed:', err);
+                alert('Simulation failed: ' + err.message);
+            }
+        }
+    </script>
+</body>
+
+</html>

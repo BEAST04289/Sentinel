@@ -1,0 +1,79 @@
+# =============================================================================
+# SENTINEL - Docker Compose Configuration
+# Development and Production Environments
+# =============================================================================
+
+version: '3.9'
+
+services:
+  # ===========================================
+  # SENTINEL API + DASHBOARD
+  # ===========================================
+  sentinel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentinel-api
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - EMBEDDING_MODEL=minilm
+      - LOG_LEVEL=INFO
+      - HOST=0.0.0.0
+      - PORT=8000
+    volumes:
+      # Mount for development hot-reload
+      - ./sec_filings:/app/sec_filings
+      # Persist vector database
+      - sentinel_chroma:/app/chroma_db
+      # Persist logs
+      - sentinel_logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - sentinel-network
+
+  # ===========================================
+  # REDIS (Optional - for caching)
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: sentinel-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - sentinel_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - sentinel-network
+    profiles:
+      - full
+
+# ===========================================
+# VOLUMES
+# ===========================================
+volumes:
+  sentinel_chroma:
+    driver: local
+  sentinel_logs:
+    driver: local
+  sentinel_redis:
+    driver: local
+
+# ===========================================
+# NETWORKS
+# ===========================================
+networks:
+  sentinel-network:
+    driver: bridge
